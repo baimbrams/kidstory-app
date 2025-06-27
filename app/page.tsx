@@ -26,9 +26,6 @@ declare global {
 
 export default function Home() {
   const {
-    genre,
-    tema,
-    latar,
     cerita,
     judul,
     loading,
