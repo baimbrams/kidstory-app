@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { track } from "@vercel/analytics";
 
 interface Props {
   judul: string;
@@ -19,6 +20,10 @@ export default function StoryResult({
   const [copied, setCopied] = useState(false);
   if (!cerita) return null;
   const handleCopyClick = () => {
+    // Track copy button click
+    track("story_copy_clicked", {
+      judul: judul || "default",
+    });
     onCopy();
     setCopied(true);
     setTimeout(() => setCopied(false), 1000);
@@ -45,7 +50,11 @@ export default function StoryResult({
             </button>
             <button
               className="px-3 py-1 border-2 border-indigo-400 text-indigo-600 rounded-lg font-semibold hover:bg-indigo-400 hover:text-white transition"
-              onClick={onNew}
+              onClick={() => {
+                // Track new story button click
+                track("new_story_clicked");
+                onNew();
+              }}
             >
               🔄 Cerita Baru
             </button>

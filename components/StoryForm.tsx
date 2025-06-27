@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { track } from "@vercel/analytics";
 
 interface Props {
   onGenerate: (genre: string, tema: string, latar: string) => void;
@@ -121,7 +122,14 @@ export default function StoryForm({ onGenerate, loading, error }: Props) {
           className={`w-full bg-gradient-to-r from-indigo-400 to-purple-600 text-white font-bold py-3 rounded-lg mt-4 flex items-center justify-center gap-2 shadow-lg transition hover:scale-[1.03] active:scale-95 ${
             loading ? "opacity-60 cursor-not-allowed" : ""
           }`}
-          onClick={() => onGenerate(genre, tema, latar)}
+          onClick={() => {
+            track("story_generate_clicked", {
+              genre: genre || "default",
+              tema: tema || "default",
+              latar: latar || "default",
+            });
+            onGenerate(genre, tema, latar);
+          }}
           disabled={loading}
         >
           {loading && (

@@ -1,3 +1,5 @@
+import { track } from "@vercel/analytics";
+
 interface Cerita {
   judul: string;
   genre: string;
@@ -20,7 +22,15 @@ export default function SampleStories({ show, contohCerita, onSample }: Props) {
           <button
             key={i}
             className="bg-white border border-indigo-200 text-indigo-700 rounded-full px-4 py-2 text-sm font-semibold hover:bg-indigo-100 transition"
-            onClick={() => onSample(i)}
+            onClick={() => {
+              // Track sample story click
+              track("sample_story_clicked", {
+                judul: c.judul,
+                genre: c.genre,
+                index: i,
+              });
+              onSample(i);
+            }}
           >
             {c.judul}
           </button>
